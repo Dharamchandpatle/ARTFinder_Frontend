@@ -20,7 +20,7 @@ const ChatModal = ({ isHidden, setIsHidden, userid }) => {
     setIsThinking(true);
 
     try {
-      const response = await fetch(`http://localhost:3000/chatHistory?userid=${userid}`, {
+      const response = await fetch(`https://art-finder-server-khaki.vercel.app/chatHistory?userid=${userid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const ChatModal = ({ isHidden, setIsHidden, userid }) => {
     setIsThinking(true);
 
     try {
-      const response = await fetch("http://localhost:3000/chat", {
+      const response = await fetch("https://art-finder-server-khaki.vercel.app/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import styles for toast
 import InsightComponent from "../components/DataAnalyzer";
 import DataVisualizer from "./DataVisualizer";
 
@@ -14,6 +16,7 @@ const Analyse = () => {
     e.preventDefault();
 
     if (!postUrl || !hashtags) {
+      toast.error("Please provide both Post URL and hashtags.");
       setJsonData({
         message: "Please provide both Post URL and hashtags.",
         error: "Input fields are required.",
@@ -45,17 +48,24 @@ const Analyse = () => {
         data: result,
       });
 
+      // Show success toast
+      toast.success("Data successfully sent and analyzed!");
+
       fetchAnalysisData();
     } catch (error) {
       setJsonData({
         message: "Failed to process the data.",
         error: error.message,
       });
+
+      // Show error toast
+      toast.error("Failed to process the data.");
     }
   };
 
   const fetchAnalysisData = async () => {
     if (!hashtags) {
+      toast.error("Please provide hashtags for analysis.");
       setJsonData({
         message: "Please provide hashtags for analysis.",
         error: "Hashtags are required.",
@@ -102,11 +112,15 @@ const Analyse = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-8 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl"> {/* Increased width to max-w-2xl */}
-        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6 font-serif">ART Finder </h1>
+      <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+        <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6 font-serif">
+          ART Finder
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="postUrl" className="block text-gray-700 font-medium">Post URL:</label>
+            <label htmlFor="postUrl" className="block text-gray-700 font-medium">
+              Post URL:
+            </label>
             <input
               type="text"
               id="postUrl"
@@ -118,7 +132,9 @@ const Analyse = () => {
             />
           </div>
           <div>
-            <label htmlFor="hashtags" className="block text-gray-700 font-medium">Hashtags:</label>
+            <label htmlFor="hashtags" className="block text-gray-700 font-medium">
+              Hashtags:
+            </label>
             <input
               type="text"
               id="hashtags"
@@ -154,13 +170,20 @@ const Analyse = () => {
             <h3 className="text-2xl font-semibold">Competitor Analysis</h3>
             <p><InsightComponent text={analysisData} /></p>
 
-            <DataVisualizer hashtags={hashtags} /> {/* Visualization Component */}
+            <DataVisualizer hashtags={hashtags} />
 
             <h4 className="mt-4 text-xl font-semibold">Suggested YouTube Links:</h4>
             <ul className="list-disc pl-5 mt-2">
               {youtubeLinks.map((link, index) => (
                 <li key={index}>
-                  <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{link}</a>
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline"
+                  >
+                    {link}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -174,6 +197,7 @@ const Analyse = () => {
           </div>
         )}
       </div>
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };
